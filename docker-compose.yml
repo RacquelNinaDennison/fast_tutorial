@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   postgres:
-    container_name: postgres_con
+    container_name: postgres_container
     image: postgres
     environment:
       POSTGRES_USER: admin
@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
 
   pgadmin:
-    container_name: pgadmin_con
+    container_name: pgadmin_container
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@example.com
@@ -35,4 +35,5 @@ networks:
     driver: bridge
 
 volumes:
-  postgres: pgadmin
+  postgres:
+  pgadmin:
