@@ -1,22 +1,12 @@
 import Fastify, { FastifyRequest, FastifyReply } from "fastify";
-import fastifyJwt from "fastify-jwt";
 import { userSchema } from "./modules/user/user.schema";
 import userRoutes from "./modules/user/user.route";
 
-const server = Fastify();
-server.register(fastifyJwt, {
-  secret: "ghshshhsbhdbyajalsndvbhaj",
+export const server = Fastify();
+server.register(require("@fastify/jwt"), {
+  secret: "superset", // random charaters for secret
+  //register the plug in
 });
-// server.decorate(
-//   "authenticate",
-//   async (request: FastifyRequest, reply: FastifyReply) => {
-//     try {
-//       await request.jwtVerify();
-//     } catch (e) {
-//       return reply.send(e);
-//     }
-//   }
-// );
 server.get("/heathcheck", async function () {
   return { status: "OK" };
 });
