@@ -19,3 +19,7 @@ export async function findUserByEmail(email: String) {
     },
   });
 }
+
+export async function findUsers() {
+  return prisma.user.findMany();
+}
