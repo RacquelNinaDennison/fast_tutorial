@@ -3,7 +3,7 @@ import { buildJsonSchemas } from "fastify-zod";
 
 const productInput = {
   title: z.string(),
-  price: z.string(),
+  price: z.number(),
   content: z.string().optional(),
 };
 
@@ -12,7 +12,6 @@ const productGenerated = {
   createdAt: z.string(),
   updatedAt: z.string(),
 };
-
 const createProductSchema = z.object({
   ...productInput,
 });
@@ -20,12 +19,15 @@ const productResponseSchema = z.object({
   ...productInput,
   ...productGenerated,
 });
-//const productResponseSchema = z.object({}); // single point end point
-const productsResponseSchema = z.array(productResponseSchema);
+const productsResponseSchema = z.array(productResponseSchema); //multiple products
+
 export type CreateProductInput = z.infer<typeof createProductSchema>;
 
-export const { schemas: productSchemas } = buildJsonSchemas({
-  createProductSchema,
-  productResponseSchema,
-  productsResponseSchema,
-});
+export const { schemas: productSchemas, $ref } = buildJsonSchemas(
+  {
+    createProductSchema,
+    productResponseSchema,
+    productsResponseSchema,
+  },
+  { $id: "ProductsSchema" }
+);
