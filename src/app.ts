@@ -36,7 +36,7 @@ async function main() {
     server.addSchema(schema); // adding before we register the rputes
   }
   server.register(userRoutes, { prefix: "api/users" });
-  server.register(userRoutes, { prefix: "api/products" });
+  server.register(productsRoutes, { prefix: "api/products" });
   try {
     await server.listen(3000, "0.0.0.0");
     console.log("Server ready at http://localhost:3000");

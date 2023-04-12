@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod";
 import { buildJsonSchemas } from "fastify-zod";
 
 const productInput = {
@@ -12,22 +12,27 @@ const productGenerated = {
   createdAt: z.string(),
   updatedAt: z.string(),
 };
-const createProductSchema = z.object({
-  ...productInput,
-});
-const productResponseSchema = z.object({
+export const createProductSchema = z
+  .object({
+    title: z.string(),
+    price: z.number(),
+    content: z.string().optional(),
+  })
+  .required()
+  .refine((data) => Object.keys(data).length === 3, {
+    message: "All fields are required",
+  });
+export const productResponseSchema = z.object({
   ...productInput,
   ...productGenerated,
 });
-const productsResponseSchema = z.array(productResponseSchema); //multiple products
 
 export type CreateProductInput = z.infer<typeof createProductSchema>;
 
-export const { schemas: productSchemas, $ref } = buildJsonSchemas(
+export const { schemas: productSchemas } = buildJsonSchemas(
   {
     createProductSchema,
     productResponseSchema,
-    productsResponseSchema,
   },
   { $id: "ProductsSchema" }
 );
